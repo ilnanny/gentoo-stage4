@@ -1,32 +1,32 @@
 # gentoo-stage4
 
-## Table of Contents
-- [Idea](#Idea)
-- [Stage4 TYPES](#Stage4-types)
-- [Scripts](#Scripts)
-- [Support for others Cloud Providers](#Support-for-others-Cloud-Providers)
-- [Packages](#Packages)
-- [Services](#Services)
-- [Kernels](#Kernels)
-- [SSH access](#SSH-access)
-- [Future changes and releases](#Future-changes-and-releases)
-- [Changelog](#Changelog)
-- [What you need to do...](#What-you-need-to-do...)
+## Sommario
+- [Idea] (# Idea)
+- [Stage4 TYPES] (# Stage4-types)
+- [Script] (# script)
+- [Supporto per altri Cloud Provider] (# Support-for-others-Cloud-Provider)
+- [Pacchetti] (# pacchetti)
+- [Servizi] (# Servizi)
+- [Kernels] (# Kernels)
+- [Accesso SSH] (# Accesso SSH)
+- [Future changes and releases] (# Future-changes-and-releases)
+- [Changelog] (# Changelog)
+- [Cosa devi fare ...] (# What-you-need-to-do ...)
 
 ## Idea
-All of us know that a Gentoo installation takes some time compared to any other distro. For the last few years, I have been installing via an auto-installer script which takes a few minutes, but on each installation does some repetitive operations, so why not have a tarball that contains the basics I need to add on each installation?
+Tutti noi sappiamo che un'installazione di Gentoo richiede del tempo rispetto a qualsiasi altra distribuzione. Negli ultimi anni, ho eseguito l'installazione tramite uno script di installazione automatica che richiede alcuni minuti, ma su ciascuna installazione vengono eseguite operazioni ripetitive, quindi perché non disporre di un archivio contenente le informazioni di base che è necessario aggiungere ad ogni installazione?
 
-The idea comes from the fact that some Hosting Providers (like Hetzner) do not provide a Gentoo image on their virtual cloud servers, so this is an EASY and FAST way to have Gentoo Installed everywhere.
+L'idea deriva dal fatto che alcuni provider di hosting (come Hetzner) non forniscono un'immagine Gentoo sui loro server cloud virtuali, quindi questo è un modo FACILE e VELOCE di avere Gentoo installato ovunque.
 
-## Stage4 TYPES
-I'm providing two types of stage4:
-- ***Standard***  
- It uses the standard profile (default/linux/amd64/17.0). Since nowadays the compiler forces pie and ssp, this stage4 aims to avoid compiling with ssp/pie/relro and other protections, **to speed-up as much as possible** where the protection flags are not needed, otherwise it would look very similar to the hardened stage4.  
- If you are looking for something compiled with hardened protections then look at the Hardened stage.
-- ***Hardened***  
- It uses the hardened profile (default/linux/amd64/17.0/hardened) without any modifications, so all protections are enabled.
+## TIPI Stage4
+Sto fornendo due tipi di stage4:
+- ***Standard***
+ Usa il profilo standard (default / linux / amd64 / 17.0). Poiché al giorno d'oggi il compilatore impone pie e ssp, questo stage4 mira a evitare la compilazione con ssp / pie / relro e altre protezioni, ** per accelerare il più possibile ** dove i flag di protezione non sono necessari, altrimenti sembrerebbe molto simile allo stage hard4.
+ Se stai cercando qualcosa compilato con protezioni indurite, guarda la fase Indurita.
+- ***Indurito***
+ Usa il profilo hardened (default / linux / amd64 / 17.0 / hardened) senza modifiche, quindi tutte le protezioni sono abilitate.
 
-The package `app-admin/checksec` provides a script that can help you understand the status of the compiled binaries:
+Il pacchetto `app-admin / checksec` fornisce uno script che può aiutarti a capire lo stato dei binari compilati:
 ~~~~
 ~ $ checksec --proc-all
 ~~~~
@@ -36,16 +36,16 @@ I'm providing two scripts:
 - ***stage4*** ( For general usage )
 - ***stage4-hetzner-cloud*** ( For Hetzner Cloud )
 
-Why multiple scripts instead of one?  
-The **goal** is to keep the script as simple as possible without dozens of if/for, so people will be able to quickly understand what it does.  
+Perché più script invece di uno?
+L'obiettivo ** è quello di mantenere lo script il più semplice possibile senza dozzine di if/for, così le persone saranno in grado di capire rapidamente cosa fa.
 
-**If your cloud provider offers a rescue system, you will probably be able to install the general stage4.**
+** Se il tuo provider cloud offre un sistema di salvataggio, probabilmente sarai in grado di installare lo stage4 generale. **
 
-## Support for others Cloud Providers
-Do you want to have your favourite cloud provider fully supported here? Just open a ticket and I will do my best to add the support.
+## Supporto per altri fornitori di servizi cloud
+Vuoi avere il tuo fornitore cloud preferito completamente supportato qui? Basta aprire un ticket e farò del mio meglio per aggiungere il supporto.
 
-## Packages
-Packages included into the stage4:
+## Pacchetti
+Pacchetti inclusi nello stage4:
 
 ~~~~
 app-admin/checksec
@@ -64,8 +64,8 @@ sys-process/cronie
 sys-process/htop
 ~~~~
 
-## Services
-Service added to default runlevel:
+## Servizi
+Servizi aggiunti al runlevel predefinito:
 ~~~~
 syslog-ng
 acpid
@@ -76,31 +76,31 @@ sshd
 ~~~~
 
 ## Kernels
-For the *stage4-hetzner-cloud* script a custom Monolithic Kernel is provided. It is based on the Hetzner Cloud hardware. If you need to include some other modules, the related Kernel config is provided, so you can start from there.  
-For the *stage4* script, a common genkernel-based kernel is provided.
+Per lo script * stage4-hetzner-cloud * viene fornito un kernel monolitico personalizzato. Si basa sull'hardware Hetzner Cloud. Se è necessario includere altri moduli, viene fornita la relativa configurazione del kernel, quindi è possibile iniziare da lì.
+Per lo script * stage4 *, viene fornito un kernel basato su genkernel.
 
-## SSH access
-If there is a file called id_rsa.pub in the same path where you are executing the stage4 script, this file will be copied as `/root/.ssh/authorized_keys`
+## Accesso SSH
+Se c'è un file chiamato id_rsa.pub nello stesso percorso in cui stai eseguendo lo script stage4, questo file verrà copiato come`/root/.ssh/authorized_keys`
 
-## Future changes and releases
-The future changes in the stage4 can be relevant to:
+## Modifiche e rilasci futuri
+I cambiamenti futuri nello stage 4 possono essere rilevanti per:
 - kernel
-- packages update
-- any other modification in the configuration
+- aggiornamento dei pacchetti
+- qualsiasi altra modifica nella configurazione
 
-Releases will not be frequent.  
-This doesn't mean that the project is not maintained, but simply it is not necessary to have a release every week.  
-Usually a release will be published after major upstream **stable** changes (gcc, glibc) and for each toolchain update, a complete `emerge -e world` will be done before publishing a new release.  
+I rilasci non saranno frequenti.
+Ciò non significa che il progetto non venga mantenuto, ma semplicemente non è necessario avere un rilascio ogni settimana.
+Di solito una versione verrà pubblicata dopo le principali modifiche ** stabili ** (gcc, glibc) e per ogni aggiornamento di toolchain, verrà eseguito un completo `emerge -e world` prima di pubblicare una nuova versione.
 
-In any case you can install the stage4 **anytime** and update to the latest stable packages available via emerge with:
+In ogni caso è possibile installare stage4 ** in qualsiasi momento ** e aggiornare agli ultimi pacchetti stable disponibili tramite emerge con:
 
 ` ~ $ emerge -DuNav world`
 
-## Changelog
-To avoid navigating and searching the git history, a plaintext Changelog is provided, which will summarize and track changes between releases.
+## Novità
+Per evitare la navigazione e la ricerca nella cronologia git, viene fornito un Changelog in chiaro, che riepiloga e tiene traccia delle modifiche tra le versioni.
 
-## What you need to do...
-If you are using something from this repository, I appreciate if you "Star" the repository. This will give me an idea of how many people are using this stuff and, consequently, how much effort I need to put in to maintain the project in a good state.
+## Cosa devi fare...
+Se stai usando qualcosa da questo repository, apprezzo se "Star" il repository. Questo mi darà un'idea di quante persone stanno usando questa roba e, di conseguenza, quanti sforzi ho bisogno di mettere per mantenere il progetto in buono stato.
 
 ---
 

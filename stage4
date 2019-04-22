@@ -8,14 +8,14 @@ BASE_URL="https://github.com/asarubbo/gentoo-stage4/raw/master"
 
 ####### USER CONFIGS
 #TYPE="uefi"
-#TYPE="bios"
-#STAGE4_URL="${BASE_URL}/archives/standard/stage4-standard-20190401.tar.xz"
+TYPE="bios"
+STAGE4_URL="${BASE_URL}/archives/standard/stage4-standard-20190401.tar.xz"
 #STAGE4_URL="${BASE_URL}/archives/hardened/stage4-hardened-20190401.tar.xz"
 
-DISK="/dev/sda"
-ESP="/dev/sda1"
-BOOT="/dev/sda2"
-ROOT="/dev/sda3"
+DISK="/dev/sdb"
+ESP="/dev/sdb1"
+BOOT="/dev/sdb2"
+ROOT="/dev/sdb3"
 ##########
 
 LOCALTIME_URL="${BASE_URL}/misc/CET"
@@ -24,32 +24,32 @@ KERNEL_VERSION="4.19.23"
 KERNEL_URL="${BASE_URL}/kernels/genkernel/${KERNEL_VERSION}"
 MOUNTPOINT="/mnt/gentoo"
 
-echo -ne "\nBefore to run this script you need to configure the basics in the script itself\n\n"
-echo "This script will COMPLETELY erase your disk $DISK (see line 63)"
-read -r -p "Are you sure? [y/N] " RESPONSE
+echo -ne "\nPrima di eseguire questo script è necessario configurare le basi nello script stesso\n\n"
+echo "Questo script cancellerà COMPLETAMENTE il tuo disco $DISK (see line 63)"
+read -r -p "Sei sicuro? [y/N] " RESPONSE
 RESPONSE=${RESPONSE,,}
 if [[ ! "$RESPONSE" =~ ^(yes|y)$ ]]
 then
-	echo "Aborting..."
+	echo "Interruzione..."
 	exit 1
 fi
 
 if [ -z "${TYPE}" ]
 then
-	echo "You need to delete the comment from one of the available TYPES and relaunch the script"
+	echo "È necessario eliminare il commento da uno dei TYPES disponibili e riavviare lo script"
 	exit 1
 fi
 
 if [ -z "${STAGE4_URL}" ]
 then
-	echo "You need to delete the comment from one of the available STAGE4_URL and relaunch the script"
+	echo "Devi eliminare il commento da uno degli STAGE4_URL disponibili e riavviare lo script"
 	exit 1
 fi
 
 function die () {
 	if [ "${?}" != "0" ]
 	then
-		echo "Something went wrong; aborting..."
+		echo "Qualcosa è andato storto; interrompo..."
 		exit 1
 	fi
 }
@@ -73,12 +73,12 @@ mount "${ROOT}" "${MOUNTPOINT}" || die
 mkdir -p "${MOUNTPOINT}"/boot || die
 mount "${BOOT}" "${MOUNTPOINT}"/boot || die
 cd "${MOUNTPOINT}" || die
-echo "DOWNLOAD IN PROGRESS..."
+echo "DOWNLOAD IN CORSO..."
 curl -s -q -L "${STAGE4_URL}" --output stage4.tar.xz || die
 echo "DOWNLOAD DONE..."
-echo "DECOMPRESSION IN PROGRESS..."
+echo "DECOMPRESSIONE IN CORSO..."
 tar -xJpf stage4.tar.xz || die
-echo "DECOMPRESSION DONE..."
+echo "DECOMPRESSIONE FATTA..."
 rm -fr stage4.tar.xz || die
 
 
@@ -128,4 +128,4 @@ then
 	cp ./id_rsa.pub root/.ssh/authorized_keys || die
 fi
 
-echo -ne "\n\n\nTHE STAGE4 INSTALLATION HAS BEEN COMPLETED....HAVE A NICE DAY ;)\n"
+echo -ne "\n\n\nL'INSTALLAZIONE DELLO STAGE4 E'STATA COMPLETATA ...BUON PROSEGUIMENTO ;)\n"
