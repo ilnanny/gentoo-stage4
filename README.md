@@ -21,12 +21,12 @@ L'idea deriva dal fatto che alcuni provider di hosting (come Hetzner) non fornis
 ## TIPI Stage4
 Sto fornendo due tipi di stage4:
 - ***Standard***
- Usa il profilo standard (default / linux / amd64 / 17.0). Poiché al giorno d'oggi il compilatore impone pie e ssp, questo stage4 mira a evitare la compilazione con ssp / pie / relro e altre protezioni, ** per accelerare il più possibile ** dove i flag di protezione non sono necessari, altrimenti sembrerebbe molto simile allo stage hard4.
+ Usa il profilo standard (default /linux/amd64/17.0). Poiché al giorno d'oggi il compilatore impone pie e ssp, questo stage4 mira a evitare la compilazione con ssp / pie / relro e altre protezioni, ** per accelerare il più possibile ** dove i flag di protezione non sono necessari, altrimenti sembrerebbe molto simile allo stage hard4.
  Se stai cercando qualcosa compilato con protezioni indurite, guarda la fase Indurita.
-- ***Indurito***
- Usa il profilo hardened (default / linux / amd64 / 17.0 / hardened) senza modifiche, quindi tutte le protezioni sono abilitate.
+- ***Hardened***
+ Usa il profilo hardened (default /linux/amd64/17.0/hardened) senza modifiche, quindi tutte le protezioni sono abilitate.
 
-Il pacchetto `app-admin / checksec` fornisce uno script che può aiutarti a capire lo stato dei binari compilati:
+Il pacchetto `app-admin/checksec` fornisce uno script che può aiutarti a capire lo stato dei binari compilati:
 ~~~~
 ~ $ checksec --proc-all
 ~~~~
